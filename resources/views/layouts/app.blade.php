@@ -10,6 +10,13 @@
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon.ico') }}">
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
     <meta id="base_url" data-url="{{ url('/') }}"/>
+    @stack('style')
+    <style>
+      footer {
+        padding: 45px 25px;
+        height: 10em;
+      }
+    </style>
   </head>
   <body>
     <!-- if lt IE 10p.browserupgrade You are using an strong outdated browser. Please a(href='http://browsehappy.com/') upgrade your browser to improve your experience.
@@ -49,6 +56,7 @@
     </div>
     <script src="{{ asset('js/app.js') }}"> </script>
     <script src="{{ asset('js/checkout.js') }}"> </script>
+    <script src="{{ asset('js/moment.js') }}"> </script>
     @stack('scripts')
   </body>
 </html>
