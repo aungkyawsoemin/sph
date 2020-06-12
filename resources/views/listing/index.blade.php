@@ -38,48 +38,7 @@
                             <td>S)2 Sub Index</td>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr class="alert">
-                            <td>National</td>
-                            <td>26</td>
-                            <td>17</td>
-                            <td>100</td>
-                            <td>80</td>
-                            <td>15</td>
-                        </tr>
-                        <tr> 
-                            <td>North</td>
-                            <td>26</td>
-                            <td>17</td>
-                            <td>100</td>
-                            <td>80</td>
-                            <td>15</td>
-                        </tr>
-                        <tr> 
-                            <td>South</td>
-                            <td>26</td>
-                            <td>17</td>
-                            <td>100</td>
-                            <td>80</td>
-                            <td>15</td>
-                        </tr>
-                        <tr> 
-                            <td>East</td>
-                            <td>26</td>
-                            <td>17</td>
-                            <td>100</td>
-                            <td>80</td>
-                            <td>15</td>
-                        </tr>
-                        <tr> 
-                            <td>West</td>
-                            <td>26</td>
-                            <td>17</td>
-                            <td>100</td>
-                            <td>80</td>
-                            <td>15</td>
-                        </tr>
-                        </tbody>
+                        <tbody id="air_pollution_listing"></tbody>
                     </table>
                     </div>
                 </div>

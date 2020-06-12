@@ -9,6 +9,7 @@
     <title>SPH : PHP Assignment</title>
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon.ico') }}">
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+    <meta id="base_url" data-url="{{ url('/') }}"/>
   </head>
   <body>
     <!-- if lt IE 10p.browserupgrade You are using an strong outdated browser. Please a(href='http://browsehappy.com/') upgrade your browser to improve your experience.
