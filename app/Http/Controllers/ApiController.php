@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\PollutantIndex;
 use App\Models\WeatherIndex;
+use File;
 
 class ApiController extends Controller
 {
@@ -35,7 +36,13 @@ class ApiController extends Controller
     }
 
     private function getPollutant() {
-        $response = requestAPI($this->third_party_apis['pollutant'], 'GET');
+        $data_source = 'API';
+        if(config('app.source_of_data') == 'API') $response = requestAPI($this->third_party_apis['pollutant'], 'GET');
+        else {
+            $data_source = 'FILE';
+            $temp_response = json_decode(File::get(storage_path('json/12062020.json')), true);
+            $response = $temp_response['pollutant_data'];
+        }
 
         $last_index = PollutantIndex::where('batch','>', 0)->orderBy('batch','desc')->first();
         $batch = 0;
@@ -50,14 +57,14 @@ class ApiController extends Controller
         $pollutant_types = ['pm10_twenty_four_hourly', 'pm25_twenty_four_hourly', 'co_sub_index', 'o3_sub_index', 'so2_sub_index'];
         
         foreach($regions as $region) {
-            $temp_index = ['location' => $region, 'batch' => $batch, 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s')];
+            $temp_index = ['location' => $region, 'batch' => $batch, 'sourceOfData' => $data_source, 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s')];
             foreach($pollutant_types as $type) {
                 $temp_index[$type] = $pollutant_readings[$type][$region];
             }
             $pollutant_indexes[] = $temp_index;
         }
         PollutantIndex::insert($pollutant_indexes);
-        /**
+        /** DeveloperComment
          * Return BATCH instead of direct pollutant data for getting Data from database
          * return $pollutant_indexes;
          *  */ 
@@ -65,7 +72,13 @@ class ApiController extends Controller
     }
 
     private function getWeather() {
-        $response = requestAPI($this->third_party_apis['weather'], 'GET');
+        $data_source = 'API';
+        if(config('app.source_of_data') == 'API') $response = requestAPI($this->third_party_apis['weather'], 'GET');
+        else {
+            $data_source = 'FILE';
+            $temp_response = json_decode(File::get(storage_path('json/12062020.json')), true);
+            $response = $temp_response['weather_data'];
+        }
 
         $last_index = WeatherIndex::where('batch','>', 0)->orderBy('batch','desc')->first();
         $batch = 0;
@@ -81,6 +94,7 @@ class ApiController extends Controller
                 'latitude' => $station['location']['latitude'],
                 'longitude' => $station['location']['longitude'],
                 'air_temp' => 0,
+                'sourceOfData' => $data_source,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s')
             ];

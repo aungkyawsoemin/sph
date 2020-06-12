@@ -15,6 +15,12 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    /* DeveloperComment
+    * Branch: change-request
+    * Available Options: API (Default), FILE
+    */
+    'source_of_data' => env('APP_SOURCE_OF_DATA', 'API'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
