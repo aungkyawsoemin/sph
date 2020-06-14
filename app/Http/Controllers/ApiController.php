@@ -26,6 +26,11 @@ class ApiController extends Controller
         $batch = $this->getWeather();
         $weather_data = WeatherIndex::where('batch', $batch)->get();
 
+        if(count($pollutant_data) == 0 || count($weather_data) == 0) {
+            $this->jsonFormat['code'] = 500;
+            $this->jsonFormat['message'] = "Failed third part API service";
+            return response($this->jsonFormat, 500);
+        }
         $this->jsonFormat['data'] = [
             'pollutant_info' => $pollutant_data,
             'weather_info' => $weather_data,
@@ -35,10 +40,10 @@ class ApiController extends Controller
     }
 
     private function getPollutant() {
-        $response = requestAPI($this->third_party_apis['pollutant'], 'GET');
-
-        $last_index = PollutantIndex::where('batch','>', 0)->orderBy('batch','desc')->first();
         $batch = 0;
+        $response = requestAPI($this->third_party_apis['pollutant'], 'GET');
+        if($response == null || $response == '' || !isset($response['items'])) return $batch;
+        $last_index = PollutantIndex::where('batch','>', 0)->orderBy('batch','desc')->first();
         if($last_index == null) $batch = 1;
         else $batch = $last_index->batch + 1;
 
@@ -65,10 +70,10 @@ class ApiController extends Controller
     }
 
     private function getWeather() {
-        $response = requestAPI($this->third_party_apis['weather'], 'GET');
-
-        $last_index = WeatherIndex::where('batch','>', 0)->orderBy('batch','desc')->first();
         $batch = 0;
+        $response = requestAPI($this->third_party_apis['weather'], 'GET');
+        if($response == null || $response == '' || !isset($response['items'])) return $batch;
+        $last_index = WeatherIndex::where('batch','>', 0)->orderBy('batch','desc')->first();
         if($last_index == null) $batch = 1;
         else $batch = $last_index->batch + 1;
 
