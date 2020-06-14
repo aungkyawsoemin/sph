@@ -63,6 +63,12 @@ return [
             ]) : [],
         ],
 
+        'phpunit' => [
+            'driver' => 'sqlite',
+            'database' => database_path('database.sqlite'),
+            'prefix' => ''
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),
